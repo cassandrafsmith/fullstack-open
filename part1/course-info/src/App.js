@@ -4,9 +4,19 @@ const Header = (props) =>{
   )
 };
 
+const Part = (props) => {
+  return(
+    <p>{props.parts} {props.exercises}</p>
+)
+}
+
 const Content = (props) => {
   return(
-    <p>{props.part} {props.exercises}</p>
+    <div> 
+      <Part parts = {props.cpart.part1} exercises = {props.cpart.exercises1} />
+      <Part parts = {props.cpart.part2} exercises = {props.cpart.exercises2} />
+      <Part parts = {props.cpart.part3} exercises = {props.cpart.exercises3} />
+    </div>
 )
 };
 
@@ -17,23 +27,23 @@ const Total = (props) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+  const course = 'Half Stack Application Development';
+
+//created an object to store part and exercises data
+  const parts = {part1: 'Fundamentals of React',
+                exercises1: 10,
+                part2: 'Using props to pass data',
+                exercises2: 7,
+                part3:'State of a component',
+                exercises3: 14};
 
   return (
     <div>
-      <Header course={course} />
-      <Content part={part1} exercises={exercises1} />
-      <Content part={part2} exercises={exercises2} />
-      <Content part={part3} exercises={exercises3} />
-      <Total total= {exercises1 + exercises2 + exercises3} />
+      <Header course={course} />      
+      <Content cpart = {parts} />
+      <Total total= {parts.exercises1 + parts.exercises2 + parts.exercises3} />
     </div>
   )
-}
+};
 
 export default App;
