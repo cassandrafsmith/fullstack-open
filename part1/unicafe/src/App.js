@@ -8,24 +8,25 @@ const Title = ({text}) => (
   <h1>{text}</h1>
 );
 
-//displays the results of button clicks
-const Results = ({text, value}) => (
-  <p>{text} {value}</p>
-  );
-
   //statistics component
   const Statistics =({good, neutral, bad}) => {    
     const sum = good + neutral + bad;
     const average = ((good * 1 + bad * - 1) / sum);
     const posFeedback = (good / sum) * 100;
  
-    return(
-      <div>
-        <p>All {sum}</p>
-        <p>Average {average}</p>
-        <p>Positive {posFeedback}%</p>
-      </div>
-    );
+    if(sum > 0){
+      return(
+        <div>
+          <p>Good {good}</p>
+          <p>Neutral {neutral}</p>
+          <p>Bad {bad}</p>
+          <p>All {sum}</p>
+          <p>Average {average}</p>
+          <p>Positive {posFeedback}%</p>
+        </div>
+      );
+    };
+    return ('No Feedback Given');
   };
 
 
@@ -55,9 +56,6 @@ const App = () => {
       <Button handleClick={setNewNeutral} text='Neutral' />
       <Button handleClick={setNewBad} text='Bad' />
       <Title text='Statistics' />
-      <Results text= 'Good' value= {good} />
-      <Results text= 'Neutral' value= {neutral} />
-      <Results text='Bad' value={bad} />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
