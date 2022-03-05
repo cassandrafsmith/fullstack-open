@@ -9,24 +9,32 @@ const Title = ({text}) => (
 );
 
 const StatisticLine = ({text, value}) => (
-  <p>{text} {value}</p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 )
 
   //statistics component
   const Statistics =({good, neutral, bad}) => {    
     const sum = good + neutral + bad;
     const average = ((good * 1 + bad * - 1) / sum);
-    const posFeedback = `${(good / sum) * 100}%`;
+    const posPercentage = (good / sum) * 100;
+    const posFeedback = `${posPercentage.toFixed(1)}%`;
  
     if(sum > 0){
       return(
         <div>
-          <StatisticLine text='Good' value={good} />
-          <StatisticLine text='Neutral' value={neutral} />
-          <StatisticLine text='Bad' value={bad} />
-          <StatisticLine text='All' value={sum} />
-          <StatisticLine text='Average' value={average} />
-          <StatisticLine text='Positive' value={posFeedback} />          
+          <table>
+            <tbody>
+              <StatisticLine text='Good' value={good} />
+              <StatisticLine text='Neutral' value={neutral} />
+              <StatisticLine text='Bad' value={bad} />
+              <StatisticLine text='All' value={sum} />
+              <StatisticLine text='Average' value={average.toFixed(1)} />
+              <StatisticLine text='Positive' value={posFeedback} />
+            </tbody>
+          </table>
         </div>
       );
     };
