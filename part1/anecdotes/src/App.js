@@ -8,12 +8,27 @@ const Title = ({text}) => (
   <h1>{text}</h1>
 )
 
+//display the anecdote
 const DisplayAnecdote = ({anecdotes, index}) => (
   <div>{anecdotes[index]}</div>   
 )
 const DisplayVotes = ({votes, index}) => (
   <div>has {votes[index]} votes</div>   
 )
+
+//display the anecdote with the most votes
+const DisplayPopularAnecdote = ({anecdotes, votes}) => {
+  let num = votes[0];
+  let index;
+  for(let i = 0; i < votes.length; i++){
+    if (votes[i] > num){
+      num = votes[i];
+      index = i;
+    }
+  }
+  return(
+  <div>{anecdotes[index]}</div>   
+)};
 
 const App = () => {
   const [selected, setSelected] = useState(0);  
@@ -31,9 +46,13 @@ const App = () => {
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
   console.log(votes);
 
-  //update selected's state
+  //update selected's state with new random index
   const setNewSelected = () => {
-    setSelected(Math.trunc(Math.random() * anecdotes.length))
+    let num = Math.trunc(Math.random() * anecdotes.length);
+    while(num === selected){
+      num = Math.trunc(Math.random() * anecdotes.length);
+    }
+    setSelected(num)
   };
    
   //update vote's state
@@ -50,6 +69,8 @@ const App = () => {
       <DisplayVotes votes={votes} index={selected} />
       <Button handleClick={setNewVotes} text='Vote' />
       <Button handleClick={setNewSelected} text='Next Anecdote' />
+      <Title text='Anecdote with Most Votes' />
+      <DisplayPopularAnecdote anecdotes={anecdotes} votes={votes} />
     </div>
   );
 }
