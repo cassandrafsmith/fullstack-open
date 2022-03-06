@@ -4,14 +4,19 @@ const Button = ({handleClick, text}) => (
   <button onClick= {handleClick}>{text}</button>
 )
 
+const Title = ({text}) => (
+  <h1>{text}</h1>
+)
+
 const DisplayAnecdote = ({anecdotes, index}) => (
-  <div>
-    {anecdotes[index]}
-  </div>   
+  <div>{anecdotes[index]}</div>   
+)
+const DisplayVotes = ({votes, index}) => (
+  <div>has {votes[index]} votes</div>   
 )
 
 const App = () => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(0);  
 
   const anecdotes = [
     'If it hurts, do it more often',
@@ -23,14 +28,27 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients' 
   ]
  
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+  console.log(votes);
+
+  //update selected's state
   const setNewSelected = () => {
-    setSelected(Math.trunc(Math.random() * 7))
+    setSelected(Math.trunc(Math.random() * anecdotes.length))
   };
    
+  //update vote's state
+  const setNewVotes = () =>{
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
+  }
 
   return (
-    <div className="App">      
+    <div className="App">
+      <Title text='Anecdote of the Day' />      
       <DisplayAnecdote anecdotes={anecdotes} index={selected} />
+      <DisplayVotes votes={votes} index={selected} />
+      <Button handleClick={setNewVotes} text='Vote' />
       <Button handleClick={setNewSelected} text='Next Anecdote' />
     </div>
   );
