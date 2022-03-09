@@ -1,14 +1,16 @@
 const Header = ({ name }) => <h1>{name}</h1>
 
-const Content = ({parts}) => (
+const Content = ({ parts }) =>{ 
+  return(
     <div>
-      <Part parts= {parts} />
+      {parts.map(parts => <Part key= {parts.id} parts={parts} />)}
     </div>   
-)
+  )
+};
 
 //const Total = ({ sum }) => <p>Number of exercises {sum}</p>
 
-const Course = ({course}) => {
+const Course = ({ course }) => {
   return (
     <div>
       <Header name= {course.name} />
@@ -17,9 +19,11 @@ const Course = ({course}) => {
   )
 };
 
-const Part = ({parts}) => (
-  parts.map(parts => <p>{parts.name} {parts.exercises}</p>)
-);
+const Part = ({ parts }) => {
+  return (
+    <p>{parts.name} {parts.exercises}</p>
+  )
+};
 
 const App = () => {
   console.log('App log');
@@ -30,15 +34,18 @@ const App = () => {
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
-      {
+      {       
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   };
