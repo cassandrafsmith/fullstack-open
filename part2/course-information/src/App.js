@@ -8,13 +8,24 @@ const Content = ({ parts }) =>{
   )
 };
 
-//const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+//return total number of course exercises 
+const Total = ({parts}) => {
+  let initialValue = 0;
+  let sum = parts.reduce((s, p) => 
+    s + p.exercises, initialValue
+  )
+  console.log(sum);
+   return(
+     <p>Number of Exercises {sum}</p>
+   )
+};
 
 const Course = ({ course }) => {
   return (
     <div>
       <Header name= {course.name} />
       <Content parts= {course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 };
