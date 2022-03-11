@@ -3,7 +3,7 @@ import { useState } from 'react'
 const DisplayPersons = ({ persons }) => {
   return(
     <div>
-      {persons.map(persons => <Name persons= {persons} />)}
+      {persons.map(persons => <Name key={persons.name} persons= {persons} />)}
     </div>
   )
 }
@@ -16,14 +16,22 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ]) 
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState('')  
 
   //handle add button click
   const addName= (event) => {
     event.preventDefault();
     const personObject = {name: newName}
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    
+    //check if newName exists in persons        
+    console.log(persons.some(e => e.name.toLowerCase() === newName.toLowerCase())) //value check 
+    if(persons.some(e => e.name.toLowerCase() === newName.toLowerCase())){
+      alert(`${newName} is already added to phonebook`)
+    }
+    else{
+      setPersons(persons.concat(personObject))
+      setNewName('')
+    }
   }
 
   //handle name form input
