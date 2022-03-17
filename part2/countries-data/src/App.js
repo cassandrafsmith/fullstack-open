@@ -7,8 +7,7 @@ import DisplayCountries from './components/displayCountries';
 function App() {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  //add state here for the country details to display
-
+  
   //us effect hook to fetch data from API
   useEffect(() => {
     console.log('effect')
@@ -21,19 +20,23 @@ function App() {
   }, []);
   console.log('render', countries.length, 'notes');
 
-  //add country data to state to use in DisplayCountry
-
-  //handle search term
+    //handle search term
   const handleSearch =(event) =>{
     console.log(event.target.value);
     setSearchValue(event.target.value);
+  };
+
+  //handle button clicks
+  const handleClick = (event) => {    
+    event.preventDefault();    
+    setSearchValue(event.target.name);
   };
 
   return (
     <div className="App">
       <h1>Countries Data App</h1>
       <Search handler={handleSearch} searchValue={searchValue} />
-      <DisplayCountries countries={countries} searchValue={searchValue} />
+      <DisplayCountries countries={countries} searchValue={searchValue} handleClick={handleClick} />
     </div>
   );
 }
