@@ -5,7 +5,6 @@ const DisplayCountries = ({ countries, searchValue, handleClick }) => {
     //filter countries using SearchValue
     console.log(countries.filter(e => e.name.common.toLowerCase().includes(searchValue.toLowerCase())));
     let filtered = countries.filter(e => e.name.common.toLowerCase().includes(searchValue.toLowerCase()));
-
     
     //filter by number of filtered results   
     if (filtered.length === 1){

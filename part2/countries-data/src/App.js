@@ -7,8 +7,8 @@ import DisplayCountries from './components/displayCountries';
 function App() {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  
-  //us effect hook to fetch data from API
+    
+  //us effect hook to fetch data from countries API
   useEffect(() => {
     console.log('effect')
     axios
@@ -19,7 +19,7 @@ function App() {
       })
   }, []);
   console.log('render', countries.length, 'notes');
-
+    
     //handle search term
   const handleSearch =(event) =>{
     console.log(event.target.value);

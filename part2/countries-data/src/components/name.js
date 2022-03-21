@@ -1,6 +1,5 @@
 import Button from "./button";
 
-//*** work on the onClick function............................................................................................
 const Name = ({ array, handleClick }) => {
     console.log('Name...')
     return(
