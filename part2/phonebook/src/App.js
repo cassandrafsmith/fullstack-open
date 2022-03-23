@@ -3,6 +3,7 @@ import axios from 'axios';
 import Filter from './components/Filter'  
 import DisplayPersons from './components/DisplayPersons'
 import InputForm from './components/InputForm'
+import peopleService from './services/people'
 
 const Title = ({ text }) =>(
   <h2>{text}</h2>
@@ -14,17 +15,18 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setNewSearchValue] = useState('')
 
-  //effect hook to fetch data from json-server using axios library
+  //effect hook to fetch data from json-server 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    peopleService
+      .getAll()
       .then(response => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(response)
+        console.log('after setPersons in getAll')
       })
   }, [])
-  console.log('render', persons.length, 'notes')
+  console.log(persons)
 
   //handle add button click
   const addName= (event) => {
@@ -39,8 +41,13 @@ const App = () => {
     if(persons.some(e => e.name.toLowerCase() === newName.toLowerCase())){
       alert(`${newName} is already added to phonebook`)
     }
+    //add person to server and to 'person' state
     else{
-      setPersons(persons.concat(personObject))
+      peopleService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+      })
       setNewName('')
       setNewNumber('')
     }
@@ -72,7 +79,7 @@ const App = () => {
       <InputForm handleNameInput={handleNameInput} handleNumberInput={handleNumberInput}
         newName={newName} newNumber={newNumber} addName={addName} />
       <Title text='Numbers' />      
-      <DisplayPersons searchValue={searchValue} persons={persons} />      
+      <DisplayPersons searchValue={searchValue} persons={persons} />
     </div>
   )
 }

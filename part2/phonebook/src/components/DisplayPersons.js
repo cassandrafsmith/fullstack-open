@@ -1,6 +1,8 @@
 import Name from './Name';
 
-const DisplayPersons = ({ persons, searchValue }) => {    
+const DisplayPersons = ({ persons, searchValue }) => { 
+  console.log('in display component')
+  
   //filter search results
   console.log(persons.filter(e => e.name.toLowerCase().includes(searchValue.toLowerCase())))
   const filtered = persons.filter(e => e.name.toLowerCase().includes(searchValue.toLowerCase()))
