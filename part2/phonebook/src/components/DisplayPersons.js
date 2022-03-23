@@ -1,6 +1,6 @@
 import Name from './Name';
 
-const DisplayPersons = ({ persons, searchValue }) => { 
+const DisplayPersons = ({ persons, searchValue, removeName }) => { 
   console.log('in display component')
   
   //filter search results
@@ -9,15 +9,15 @@ const DisplayPersons = ({ persons, searchValue }) => {
   
   while(searchValue === ''){
     return(
-      <div>
-        {persons.map(persons => <Name key={persons.name} array= {persons} />)}
-      </div>
+      <ul>
+        {persons.map(persons => <Name key={persons.name} array= {persons} removeName={removeName} />)}
+      </ul>
     )
   }
   return(
-    <div>
-        {filtered.map(filtered => <Name key={filtered.name} array= {filtered} />)}
-      </div>
+    <ul>
+        {filtered.map(filtered => <Name key={filtered.name} array= {filtered} removeName={removeName} />)}
+      </ul>
   )
 } 
 
