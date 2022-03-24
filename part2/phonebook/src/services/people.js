@@ -28,7 +28,7 @@ const update = (id, newObject) => {
     const request = axios.put(`${baseUrl}/${id}`,newObject)
     return request.then(response =>{
         return response.data        
-    })
+    })    
 }
 
 //export an object containing the functions

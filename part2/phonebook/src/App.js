@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 import Filter from './components/Filter';  
 import DisplayPersons from './components/DisplayPersons';
 import InputForm from './components/InputForm';
+import Notification from './components/Notification';
 import peopleService from './services/people';
-
-const Title = ({ text }) =>(
-  <h2>{text}</h2>
-); 
+import Title from './components/Title';
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')  
   const [newNumber, setNewNumber] = useState('')
   const [searchValue, setNewSearchValue] = useState('')
+  const [message, setMessage] = useState(null)
+  const [messageIsError, setmessageIsError] = useState(false)
+   
   
 
   //effect hook to fetch data from json-server 
@@ -47,9 +48,21 @@ const App = () => {
           .then(returnedPerson => {
             console.log('--->', returnedPerson)
             setPersons(persons.map(person => person.id !== updatedObject.id ? person : returnedPerson))
-          })
-          setNewName('')
-          setNewNumber('')
+            setMessage(`The number for ${foundPerson.name} was updated.`)
+            setTimeout(() =>{
+              setMessage(null)
+            }, 5000)          
+            setNewName('')
+            setNewNumber('')
+          })         
+          .catch(error =>{
+            setmessageIsError(true)
+            setMessage(`Error: ${personObject.name}'s information has already been removed.`)        
+            setTimeout(() => {
+              setMessage(null)
+              setmessageIsError(false)
+            }, 5000)
+          })      
       }
     }
 
@@ -59,19 +72,23 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-      })
-      setNewName('')
-      setNewNumber('')
+          setMessage(`${personObject.name} has been added.`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)      
+          setNewName('')
+          setNewNumber('')
+        })          
     }
-  }
+  };
   
   //handle click of delete button
   const removeName =(name, id) => {    
     if(window.confirm(`Are you sure you want to remove ${name}?`)){
-      peopleService.remove(id)
-      setPersons(persons.filter(person  => person.id !== id)) 
-      console.log(persons)
-    }
+      peopleService
+      .remove(id)
+      setPersons(persons.filter(person  => person.id !== id))                     
+    }      
   };
 
   //handle user input in name form
@@ -95,6 +112,7 @@ const App = () => {
   return (
     <div>
       <Title text='Phonebook' />
+      <Notification message={message} messageIsError={messageIsError} />
       <Filter handler={handleSearchInput} value={searchValue} />
       <Title text='Add a New' />
       <InputForm handleNameInput={handleNameInput} handleNumberInput={handleNumberInput}
