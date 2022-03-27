@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 let persons = [
     { 
       "id": 1,
@@ -24,7 +26,39 @@ let persons = [
     }
 ];
 
+const createId = () => {
+  return Math.trunc(Math.random() * 1000);
+};
+
 //Routes
+
+//POST route to add person to persons
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  console.log(body)
+
+  if(!body.name || !body.number){
+    return response.status(400).json({
+      error: 'name or number missing'
+    })
+  };
+
+  if(persons.find(person => person.name === body.name) ){
+    return response.status(409).json({
+      error: 'name already exists'
+    })
+  };
+
+  const person = {
+    id: createId(),
+   name: body.name,
+   number: body.number
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
+});
+
 
 //GET route for persons
 app.get('/api/persons', (request, response) => {
@@ -50,6 +84,13 @@ app.get('/api/persons/:id', (request, response) =>{
   }
 });
 
+//DELETE route to remove a single resource
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.filter(person => person.id !== id);
+  response.status(204).end();
+})
+
 
 const PORT = 3001;
 app.listen(PORT, () => {
@@ -57,5 +98,9 @@ app.listen(PORT, () => {
 });
 
 
-/*NOTES: I just found out that you can pass HTML to the respond.send route in a template literal to format the way the response is shown on Localhost. Interesting... 
-Everyday I realize that there is so much that I do not know and so much that I still need to learn! */
+/*NOTES: 
+- I am going to use semicolons to end my code in this section (3a). I am wanting to see if
+  it is as comfortable as it was for me while coding in Java. 
+- I just found out that you can pass HTML to the respond.send route in a template literal
+   to format the way the response is shown on Localhost. Interesting... 
+- Everyday I realize that there is so much that I do not know and so much that I still need to learn! */
