@@ -1,7 +1,15 @@
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
-app.use(express.json());
+morgan.token('info', (request, response) => (
+  JSON.stringify(request.body))
+)
+
+app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :info'))
+
 
 let persons = [
     { 
@@ -35,7 +43,7 @@ const createId = () => {
 //POST route to add person to persons
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-  console.log(body)
+  //console.log(body)
 
   if(!body.name || !body.number){
     return response.status(400).json({
@@ -68,7 +76,7 @@ app.get('/api/persons', (request, response) => {
 //GET route for phonebook info page ** See Notes
 app.get('/api/info', (request, response) => {
   let info = `<p>Phonebook has information for ${persons.length} people.</p><p>${new Date()}</p>`;  //HTML in the template literal is pretty neat!
-   console.log(info)
+  console.log(info)
   response.send(info);
 }); 
 
